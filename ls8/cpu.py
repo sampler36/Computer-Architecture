@@ -76,4 +76,25 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-      
+        # running?
+        running = True
+
+        # fetch decode execute
+        while running:
+            # Fetch
+            instruction = self.ram[self.pc]
+            # Decode
+            if instruction == self.opcodes['HLT']:
+                self.running = False
+            elif instruction == self.opcodes['LDI']:
+                reg_data = self.ram[self.pc+1]
+                reg_val = self.ram[self.pc+2]
+                self.reg[reg_data] = reg_val
+                self.pc += 3
+            elif instruction == self.opcodes['PRN']:
+                reg_data = self.ram[self.pc+1]
+                print(self.reg[reg_data])
+                self.pc += 2
+        
+            else:
+                sys.exit(1)
