@@ -6,9 +6,23 @@ class CPU:
     """Main CPU class."""
 
     def __init__(self):
-        """Construct a new CPU."""
-        pass
+        self.ram = 256 * [0]      # hold 256 bytes of memory   
+        self.reg = [0] * 8        # 8 general-purpose registers.
+        self.pc = 0               # internal register prop
+        # opcodes
+        self.opcodes = {
+            "LDI": 0b10000010,    # load "immediate", store a value in a register, or "set this register to this value".
+            "PRN": 0b01000111,    # a pseudo-instruction that prints the numeric value stored in a register.
+            "HLT": 0b00000001,    # halt the CPU and exit the emulator.
+        }
 
+    # RAM functions
+    def ram_read(self, address):
+        return self.ram[address]
+    
+    def ram_write(self, value, address):
+        self.ram[address] = value
+     
     def load(self):
         """Load a program into memory."""
 
@@ -62,4 +76,4 @@ class CPU:
 
     def run(self):
         """Run the CPU."""
-        pass
+      
