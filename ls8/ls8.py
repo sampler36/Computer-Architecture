@@ -7,5 +7,5 @@ from cpu import *
 
 cpu = CPU()
 
-cpu.load('./examples/program.ls8')
+cpu.load('./examples/mult.ls8')
 cpu.run()
