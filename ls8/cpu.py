@@ -30,6 +30,28 @@ class CPU:
         """Load a program into memory."""
 
         address = 0
+# same as toms lecture
+        try:
+            with open(filename) as f:
+                for line in f:
+                    # split before and after any comment symbols
+                    comment_split = line.split('#')
+                    # convert the pre-comment portion to a value
+                    number = comment_split[0].strip() # trim whitespace
+
+                    if number == "":
+                        continue # ignore blank lines
+
+                    val = int(number, 2)
+
+                    # store it in memory
+                    memory[address] = val
+
+                    address += 1 
+                    
+        except FileNotFoundError:
+            print(f"{sys.argv[0]}: {filename} not found")
+            sys.exit(2)
 
         # For now, we've just hardcoded a program:
 
