@@ -122,7 +122,7 @@ class CPU:
                 print(self.reg[reg_data])
                 self.pc += 2
             
-            elif instruction == self.opcodes[' MUL']
+            elif instruction == self.opcodes[' MUL']:
                 address_a = self.ram_read(self.pc + 1)
                 address_b = self.ram_read(self.pc + 2)
                 self.alu('MUL', address_a, address_b)
