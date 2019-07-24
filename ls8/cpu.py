@@ -14,6 +14,7 @@ class CPU:
             "LDI": 0b10000010,    # load "immediate", store a value in a register, or "set this register to this value".
             "PRN": 0b01000111,    # a pseudo-instruction that prints the numeric value stored in a register.
             "HLT": 0b00000001,    # halt the CPU and exit the emulator.
+            "MUL": 0b10100010:  # MUL R0,R1
         }
         
     def increment_pc(self, op_code):
@@ -48,7 +49,7 @@ class CPU:
                     memory[address] = val
 
                     address += 1 
-                    
+
         except FileNotFoundError:
             print(f"{sys.argv[0]}: {filename} not found")
             sys.exit(2)
@@ -120,7 +121,12 @@ class CPU:
                 reg_data = self.ram[self.pc+1]
                 print(self.reg[reg_data])
                 self.pc += 2
-        
+            
+            elif instruction == self.opcodes[' MUL']
+                address_a = self.ram_read(self.pc + 1)
+                address_b = self.ram_read(self.pc + 2)
+                self.alu('MUL', address_a, address_b)
+                self.pc +=3
             else:
                 sys.exit(1)
 
