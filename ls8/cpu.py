@@ -31,6 +31,7 @@ class CPU:
         """Load a program into memory."""
 
         address = 0
+    
 # same as toms lecture
         try:
             with open(filename) as f:
@@ -38,17 +39,17 @@ class CPU:
                     # split before and after any comment symbols
                     comment_split = line.split('#')
                     # convert the pre-comment portion to a value
-                    number = comment_split[0].strip() # trim whitespace
+                    number = comment_split[0].strip()  # trim whitespace
 
                     if number == "":
-                        continue # ignore blank lines
+                        continue  # ignore blank lines
 
                     val = int(number, 2)
 
                     # store it in memory
-                    memory[address] = val
+                    self.ram_write(val, address)
 
-                    address += 1 
+                    address += 1
 
         except FileNotFoundError:
             print(f"{sys.argv[0]}: {filename} not found")
