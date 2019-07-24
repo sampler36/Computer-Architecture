@@ -14,7 +14,7 @@ class CPU:
             "LDI": 0b10000010,    # load "immediate", store a value in a register, or "set this register to this value".
             "PRN": 0b01000111,    # a pseudo-instruction that prints the numeric value stored in a register.
             "HLT": 0b00000001,    # halt the CPU and exit the emulator.
-            "MUL": 0b10100010:  # MUL R0,R1
+            "MUL": 0b10100010,  # MUL R0,R1
         }
         
     def increment_pc(self, op_code):
@@ -27,7 +27,7 @@ class CPU:
     def ram_write(self, value, address):
         self.ram[address] = value
      
-    def load(self):
+    def load(self, filename):
         """Load a program into memory."""
 
         address = 0
@@ -130,68 +130,72 @@ class CPU:
             else:
                 sys.exit(1)
 
-  def process(self):
-        """
-        Process a single opcode from the current program counter.  This is
-        normally called from the running loop, but can also be called
-        manually to provide a "step-by-step" debugging interface, or
-        to slow down execution using time.sleep().  This is the method
-        that will also need to used if you build a TK/GTK/Qt/curses frontend
-        to control execution in another thread of operation.
-        """
-        self.fetch()
-        opcode, data = int(math.floor(self.ir / 100)), self.ir % 100
-        self.__opcodes[opcode](data)
-    def opcode_0(self, data):
-        """ INPUT Operation """
-        self.mem[data] = self.reader.pop()
-    def opcode_1(self, data):
-        """ Clear and Add Operation """
-        self.acc = self.get_memint(data)
-    def opcode_2(self, data):
-        """ Add Operation """
-        self.acc += self.get_memint(data)
-    def opcode_3(self, data):
-        """ Test Accumulator contents Operation """
-        if self.acc < 0:
-            self.pc = data
-    def opcode_4(self, data):
-        """ Shift operation """
-        x,y = int(math.floor(data / 10)), int(data % 10)
-        for i in range(0,x):
-            self.acc = (self.acc * 10) % 10000
-        for i in range(0,y):
-            self.acc = int(math.floor(self.acc / 10))
-    def opcode_5(self, data):
-        """ Output operation """
-        self.output.append(self.mem[data])
-    def opcode_6(self, data):
-        """ Store operation """
-        self.mem[data] = self.pad(self.acc)
-    def opcode_7(self, data):
-        """ Subtract Operation """
-        self.acc -= self.get_memint(data)
-    def opcode_8(self, data):
-        """ Unconditional Jump operation """
-        self.pc = data
-    def opcode_9(self, data):
-        """ Halt and Reset operation """
-        self.reset()
-    def run(self, pc=None):
-        """ Runs code in memory until halt/reset opcode. """
-        if pc:
-            self.pc = pc
-        self.running = True
-        while self.running:
-            self.process()
-        print "Output:\n%s" % '\n'.join(self.output)
-        self.init_output()
+#   def process(self):
 
-if __name__ == '__main__':
-    c = Cardiac()
-    c.read_deck('deck1.txt')
-    try:
-        c.run()
-    except:
-        print "IR: %s\nPC: %s\nOutput: %s\n" % (c.ir, c.pc, '\n'.join(c.output))
-        raise
+
+
+#         """
+#         Process a single opcode from the current program counter.  This is
+#         normally called from the running loop, but can also be called
+#         manually to provide a "step-by-step" debugging interface, or
+#         to slow down execution using time.sleep().  This is the method
+#         that will also need to used if you build a TK/GTK/Qt/curses frontend
+#         to control execution in another thread of operation.
+#         """
+#       self.fetch()
+#       opcode, data = int(math.floor(self.ir / 100)), self.ir % 100 self.__opcodes[opcode](data)
+
+# def opcode_0(self, data):
+#         """ INPUT Operation """
+#         self.mem[data] = self.reader.pop()
+# def opcode_1(self, data):
+#         """ Clear and Add Operation """
+#         self.acc = self.get_memint(data)
+# def opcode_2(self, data):
+#         """ Add Operation """
+#         self.acc += self.get_memint(data)
+# def opcode_3(self, data):
+#         """ Test Accumulator contents Operation """
+#         if self.acc < 0:
+#             self.pc = data
+# def opcode_4(self, data):
+#         """ Shift operation """
+#         x,y = int(math.floor(data / 10)), int(data % 10)
+#         for i in range(0,x):
+#             self.acc = (self.acc * 10) % 10000
+#         for i in range(0,y):
+#             self.acc = int(math.floor(self.acc / 10))
+# def opcode_5(self, data):
+#         """ Output operation """
+#         self.output.append(self.mem[data])
+# def opcode_6(self, data):
+#         """ Store operation """
+#         self.mem[data] = self.pad(self.acc)
+# def opcode_7(self, data):
+#         """ Subtract Operation """
+#         self.acc -= self.get_memint(data)
+# def opcode_8(self, data):
+#         """ Unconditional Jump operation """
+#         self.pc = data
+# def opcode_9(self, data):
+#         """ Halt and Reset operation """
+#         self.reset()
+# def run(self, pc=None):
+
+#         """ Runs code in memory until halt/reset opcode. """
+#      if pc:
+#             self.pc = pc
+#         self.running = True
+#         while self.running:
+#             self.process()
+#         print "Output:\n%s" % '\n'.join(self.output)
+#         self.init_output()
+
+# if __name__ == '__main__':
+#     c = Cardiac()
+#     c.read_deck('deck1.txt')
+#     try:
+#         c.run()
+#     except:
+#         print "IR: %s\nPC: %s\nOutput: %s\n" % (c.ir, c.pc, '\n'.join(c.output))
+#         raise
