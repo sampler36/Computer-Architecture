@@ -137,6 +137,13 @@ class CPU:
                 self.registers[self.sp] -= 1  # decrement the stack pointer
                 self.ram[self.registers[self.sp]] = val
                 self.increment_pc(op_code)
+            
+            # elif instruction == POP:
+            #     reg = memory[ip + 1] # get the register from the operand
+            #     val = memory[registers[sp]] # extract the value from memory at the current location that sp points to 
+            #     registers[reg] = val # set the register from our operand to the value at the top of the stack
+            #     registers[sp] += 1 # increment the stack pointer
+            #     ip += 2 # increment the ip by size of instruction
 
             else:
                  print('here is the else')
