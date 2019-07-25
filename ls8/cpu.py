@@ -15,6 +15,8 @@ class CPU:
         self.running = False
         self.ram = [0] * 512
         self.pc = 0
+        # adding pop and push
+        self.pp = 7
 
     def ram_read(self, MAR):
         """Read the RAM. MAR = memory address register"""
