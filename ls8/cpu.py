@@ -16,7 +16,7 @@ class CPU:
         self.ram = [0] * 512
         self.pc = 0
         # adding pop and push
-        self.pp = 7
+        self.sp = 7
 
     def ram_read(self, MAR):
         """Read the RAM. MAR = memory address register"""
@@ -122,6 +122,20 @@ class CPU:
                 address_b = self.ram_read(self.pc + 2)
                 self.alu('MUL', address_a, address_b)
 
+                self.increment_pc(op_code)
+
+            # elif instruction == PUSH:
+            #     reg = memory[ip + 1] # get the register from the operand
+            #     val = registers[reg] # extract the value from the register
+            #     registers[sp] -= 1 # decrement the stack pointer
+            #     memory[registers[sp]] = val # place the value in to the memory address referenced by the stack pointer
+            #     ip += 2 # increment the ip by size of instruction
+
+            elif op_code == 0b01000101:  # PUSH
+                register_address = self.ram_read(self.pc + 1)
+                val = self.registers[register_address]
+                self.registers[self.sp] -= 1  # decrement the stack pointer
+                self.ram[self.registers[self.sp]] = val
                 self.increment_pc(op_code)
 
             else:
