@@ -18,8 +18,8 @@ class CPU:
         # adding pop and push
         self.sp = 7
         # adding call and return
-        self.call = 8
-        self.ret = 9
+        # self.call = 8
+        # self.ret = 9
 
     def ram_read(self, MAR):
         """Read the RAM. MAR = memory address register"""
@@ -153,5 +153,21 @@ class CPU:
                 self.registers[register_address] = val
                 self.registers[self.sp] += 1
                 self.increment_pc(op_code)
+
+            elif instruction == CALL:
+                # push the return address on to the stack
+                registers[sp] -= 1
+                memory[registers[sp]] = ip + 2
+                # set instruction pointer to the subroutine
+                reg = memory[ip + 1]
+                ip = registers[reg]
+
+            
+            elif instruction == RET:
+                # pop the return address from the stack and store it in ip
+                ip = memory[registers[sp]]
+                registers[sp] += 1
+            elif instruction == HALT:
+                running = False
             else:
                  print('here is the else')
