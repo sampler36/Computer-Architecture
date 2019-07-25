@@ -144,6 +144,11 @@ class CPU:
             #     registers[reg] = val # set the register from our operand to the value at the top of the stack
             #     registers[sp] += 1 # increment the stack pointer
             #     ip += 2 # increment the ip by size of instruction
-
+            elif op_code == 0b01000110:  # POP
+                register_address = self.ram_read(self.pc + 1)
+                val = self.ram[self.registers[self.sp]]
+                self.registers[register_address] = val
+                self.registers[self.sp] += 1
+                self.increment_pc(op_code)
             else:
                  print('here is the else')
