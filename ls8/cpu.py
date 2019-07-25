@@ -18,6 +18,8 @@ class CPU:
         # adding pop and push
         self.sp = 7
         # adding call and return
+        self.call = 8
+        self.ret = 9
 
     def ram_read(self, MAR):
         """Read the RAM. MAR = memory address register"""
