@@ -134,7 +134,14 @@ class CPU:
                 self.alu('CMP', address_a, address_b)
 
                 self.increment_pc(op_code)
+
                 
+            elif op_code == 0b01010100:  # JMP
+                # Jump to the address stored in the given register.
+                # Set the PC to the address stored in the given register
+                register_address = self.ram_read(self.pc + 1)
+                self.pc = self.registers[register_address]
+
             # elif instruction == PUSH:
             #     reg = memory[ip + 1] # get the register from the operand
             #     val = registers[reg] # extract the value from the register
