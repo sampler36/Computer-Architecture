@@ -134,7 +134,6 @@ class CPU:
                 self.alu('CMP', address_a, address_b)
 
                 self.increment_pc(op_code)
-
                 
             elif op_code == 0b01010100:  # JMP
                 # Jump to the address stored in the given register.
@@ -142,6 +141,21 @@ class CPU:
                 register_address = self.ram_read(self.pc + 1)
                 self.pc = self.registers[register_address]
 
+            elif op_code == 0b01010101:  # JEQ  when equal
+                # If equal flag is set (true), jump to the address stored
+                # in the given register.
+                register_address = self.ram_read(self.pc + 1)
+                if self.flag == 0b00000001:
+                    self.pc = self.registers[register_address]
+                else:
+                    self.increment_pc(op_code)
+            elif op_code == 0b01010110:  # JNE when  not equal
+                register_address = self.ram_read(self.pc + 1)
+                if self.flag != 0b00000001:
+                    self.pc = self.registers[register_address]
+                else:
+                    self.increment_pc(op_code)
+                    
             # elif instruction == PUSH:
             #     reg = memory[ip + 1] # get the register from the operand
             #     val = registers[reg] # extract the value from the register
