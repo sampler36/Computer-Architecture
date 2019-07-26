@@ -155,7 +155,7 @@ class CPU:
                     self.pc = self.registers[register_address]
                 else:
                     self.increment_pc(op_code)
-                    
+
             # elif instruction == PUSH:
             #     reg = memory[ip + 1] # get the register from the operand
             #     val = registers[reg] # extract the value from the register
@@ -192,8 +192,16 @@ class CPU:
             #     ip = registers[reg]
 
             elif op_code == 0b01010000: #CALL
-                self.increment_pc(op_code)
+                # stack pointer (stored in R7) goes down by one
+                self.registers[self.sp] -= 1
+                # at the stack pointer we're saving the return address
+                self.ram[self.registers[self.sp]] = self.pc + 2
+                # The PC is set to the address stored in the given register
+                # + 1 pc moves to next instruction (which is an address of the subroutine)
+                address_of_subroutine = self.ram[self.pc + 1]
+                self.pc = self.registers[address_of_subroutine]
 
+                #  self.increment_pc(op_code)
             
             # elif instruction == RET:
             #     # pop the return address from the stack and store it in ip
@@ -202,8 +210,9 @@ class CPU:
             # elif instruction == HALT:
             #     running = False
 
-            elif op_code == 0b00010001: #RET
-                self.increment_pc(op_code)
-
+            elif op_code == 0b00010001: #RET pop from top and store it 
+                self.pc = self.ram[self.registers[self.sp]]
+                # because we have popped off the stack, need to move the sp up one
+                self.registers[self.sp] += 1
             else:
                  print('here is the else')
