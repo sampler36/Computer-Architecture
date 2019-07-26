@@ -17,6 +17,7 @@ class CPU:
         self.pc = 0
         # adding pop and push
         self.sp = 7
+        self.flag = 0b00000000
         # adding call and return
         # self.call = 8
         # self.ret = 9
@@ -127,6 +128,13 @@ class CPU:
 
                 self.increment_pc(op_code)
 
+            elif op_code == 0b10100111:  # CMP
+                address_a = self.ram_read(self.pc + 1)
+                address_b = self.ram_read(self.pc + 2)
+                self.alu('CMP', address_a, address_b)
+
+                self.increment_pc(op_code)
+                
             # elif instruction == PUSH:
             #     reg = memory[ip + 1] # get the register from the operand
             #     val = registers[reg] # extract the value from the register
